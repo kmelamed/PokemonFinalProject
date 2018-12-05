@@ -1,0 +1,14 @@
+import java.util.ArrayList;
+
+public abstract class Character {
+	String name;
+	ArrayList<Pokemon> pokemon;
+	int row; 
+	int col; 
+	
+	Character(String n, ArrayList<Pokemon> p) {
+		name = n;
+		pokemon = p;
+	}
+	
+}
