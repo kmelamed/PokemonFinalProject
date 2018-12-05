@@ -64,15 +64,12 @@ public class Board {
 	}
 	
 	public boolean isOk (char[][] board, int i, int j) {
-		int[] di = {-1, 0, 1, 0}, dj = {0, 1, 0, -1};
-		int x = 0;
-		while(x < 8) {
-			for (int k = 0; k < 4; k++) {
-				int toI = i + di[k];
-				int toJ = j + dj[k];
-				if (toI >= 0 && toI < board.length && toJ >= 0 && toJ < board[0].length && board[toI][toJ] == 'R') {
-					return false;
-				}
+		int[] di = {-1, -1, -1, 0, 0, 0, 1, 1, 1}, dj = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
+		for (int k = 0; k < 9; k++) {
+			int toI = i + di[k];
+			int toJ = j + dj[k];
+			if (toI >= 0 && toI < board.length && toJ >= 0 && toJ < board[0].length && board[toI][toJ] == 'R') {
+				return false;
 			}
 		}
 		
