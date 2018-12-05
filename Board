@@ -1,0 +1,81 @@
+import java.util.Arrays;
+
+public class Board {
+	
+	public static void main(String[] args) { 
+		
+		char[][] test = generateBoard(11,4); 
+		
+		printBoard(test); 
+		
+	}
+	
+	char[][] board; 
+	int length; 
+	int width; 
+
+	Board(int l, int w) { 
+		length = l; 
+		width = w; 
+		board = generateBoard(l, w); 
+	}
+	
+	public static char[][] generateBoard(int l, int w) { 
+		char[][] board = new char[w][l];
+		
+		for (int i = 0; i < board.length; i++) { 
+			for (int j = 0; j < board[0].length; j++) { 
+				board[i][j] = '_'; 
+			}
+		}
+		int rockCounter = 4; 
+		int bushCounter = 4; 
+		
+		for (int i = 0; i < bushCounter; i++) { 
+			int row = (int) (Math.random() * w); 
+			int col = (int) (Math.random() * (l - 2));
+			
+			while (board[row][col] != '_') { 
+				row = (int) (Math.random() * w); 
+				col = (int) (Math.random() * (l - 2));
+			}
+			
+			board[row][col] = 'B'; 
+			
+		}
+		
+		
+		for (int i = 0; i < rockCounter; i++) { 
+			int row = (int) (Math.random() * w); 
+			int col = (int) (Math.random() * (l - 2));
+			
+			while (board[row][col] != '_') { 
+				row = (int) (Math.random() * w); 
+				col = (int) (Math.random() * (l - 2));
+			}
+			
+			board[row][col] = 'R'; 
+			
+		}
+		
+		return board; 
+		
+		
+	}
+	
+	public boolean isOk (char[][] board, int i, int j) { 
+		
+		
+		return true; 
+	}
+	
+	public static void printBoard(char[][] board) { 
+		for (int i = 0; i < board.length; i++) { 
+			for (int j = 0; j < board[0].length; j++) { 
+				System.out.print(board[i][j] + " ");
+			}
+			System.out.println();
+		}
+	}
+
+}
