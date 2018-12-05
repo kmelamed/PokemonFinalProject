@@ -1,0 +1,23 @@
+public abstract class Pokemon {
+	String name;
+	String nickName;
+	char type;
+	int totalHP;
+	int currentHP;
+	int def;
+	int currentDef;
+	
+	public abstract void fast(Pokemon p);
+	public abstract void slow(Pokemon p);
+	
+	public Pokemon(String n, String nn, char t, int tHP, int d) {
+		name = n;
+		nickName = nn;
+		type = t;
+		totalHP = tHP;
+		currentHP = totalHP;
+		def = d;
+		currentDef = def;
+	}
+
+}
