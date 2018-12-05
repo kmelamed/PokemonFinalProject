@@ -1,0 +1,35 @@
+public class Riley extends Pokemon {
+	String fastAtk = "Scream";
+	String slowAtk = "Slow";
+	
+	Riley() {
+		super("Riley", "Smiley Riley", 'F', 100, 30);
+	}
+	
+	@Override
+	public void fast(Pokemon p) {
+		int dmg = 60 - p.def;
+		if (p.type == 'G') {
+			dmg *= 2;
+			int critChance = (int)(Math.random() * 20) + 1;
+			if (critChance == 20)
+				dmg *= 2;
+		} else if (p.type == 'F') {
+			int critChance = (int)(Math.random() * 20) + 1;
+			if (critChance == 20)
+				dmg *= 2;
+		} else {
+			dmg /= 2;
+			int critChance = (int)(Math.random() * 20) + 1;
+			if (critChance == 20)
+				dmg *= 2;
+		}
+		p.currentHP -= dmg;
+	}
+	
+	@Override
+	public void slow(Pokemon p) {
+		p.def -= 10;
+	}
+	
+}
