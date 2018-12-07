@@ -1,0 +1,36 @@
+
+public class Kaylen extends Pokemon {
+
+	String fastAtk = "";
+	String heavyAtk = "";
+	
+	public Kaylen(String name) {
+		super("Kaylen", name, 'G', 100, 30, 120);
+	}
+
+
+	@Override
+	public void fast(Pokemon p) {
+		int dmg = 20;
+		int critChance = (int)(Math.random() * 20) + 1;
+		if (critChance == 20)
+			dmg *= 2;
+		p.currentHP -= dmg;
+	}
+	
+	@Override
+	public void heavy(Pokemon p) {
+		int dmg = 50 - p.def;
+		int critChance = (int)(Math.random() * 20) + 1;
+		
+		if (p.type == 'W') 
+			dmg *= 2;	
+		else if (p.type == 'F') 
+			dmg /= 2;
+		
+		if (critChance == 20)
+			dmg *= 2;
+		p.currentHP -= dmg;
+	}
+
+}
