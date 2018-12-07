@@ -6,11 +6,12 @@ public abstract class Pokemon {
 	int currentHP;
 	int def;
 	int currentDef;
+	int speed;
 	
 	public abstract void fast(Pokemon p);
 	public abstract void slow(Pokemon p);
 	
-	public Pokemon(String n, String nn, char t, int tHP, int d) {
+	public Pokemon(String n, String nn, char t, int tHP, int d, int s) {
 		name = n;
 		nickName = nn;
 		type = t;
@@ -18,6 +19,8 @@ public abstract class Pokemon {
 		currentHP = totalHP;
 		def = d;
 		currentDef = def;
+		speed = s;
 	}
-
+	
 }
+
