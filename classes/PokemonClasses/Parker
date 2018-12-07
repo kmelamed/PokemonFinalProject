@@ -1,0 +1,22 @@
+
+public class Parker extends Pokemon{
+
+	public Parker(String name) {
+		super("Parker", name, 'W', 150, 20, 80);
+	}
+
+	@Override
+	public void fast(Pokemon p) {
+		int dmg = 20; 
+		if (p.type == 'W')
+			dmg *= 2; 
+		p.currentHP -= dmg; 
+	}
+
+	@Override
+	public void heavy(Pokemon p) {
+		this.currentHP += 10; 
+		p.currentHP -= 10; 
+	}
+
+}
