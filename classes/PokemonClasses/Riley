@@ -1,9 +1,10 @@
+
 public class Riley extends Pokemon {
 	String fastAtk = "Scream";
-	String slowAtk = "Slow";
+	String heavyAtk = "Slow";
 	
-	Riley() {
-		super("Riley", "Smiley Riley", 'F', 250, 0, 50);
+	public Riley(String name) {
+		super("Riley", name, 'F', 120, 10, 90);
 	}
 	
 	@Override
@@ -14,7 +15,7 @@ public class Riley extends Pokemon {
 	}
 	
 	@Override
-	public void slow(Pokemon p) {
+	public void heavy(Pokemon p) {
 		int dmg = 60 - p.def;
 		if (p.type == 'G') {
 			dmg *= 2;
