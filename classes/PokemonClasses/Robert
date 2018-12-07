@@ -1,0 +1,32 @@
+
+public class Robert extends Pokemon {
+
+	public Robert(String name) {
+		super("Robert", name, 'G', 200, 10, 30);
+
+	}
+
+	@Override
+	public void fast(Pokemon p) {
+		this.currentHP += 10; 
+		
+	}
+
+	@Override
+	public void heavy(Pokemon p) {
+		int dmg = 40 - p.def;
+		int critChance = (int)(Math.random() * 20) + 1;
+	
+		if (p.type == 'W') 
+			dmg *= 2;	
+		else if (p.type == 'F') 
+			dmg /= 2;
+		
+		if (critChance == 20)
+			dmg *= 2;
+		p.currentHP -= dmg;
+	}
+
+
+
+}
