@@ -1,0 +1,22 @@
+
+public class Dillon extends Pokemon {
+
+	public Dillon(String name) {
+		super("Dillon", name, 'F', 10, 0, 80);
+	}
+
+	@Override
+	public void fast(Pokemon p) {
+		int dmg = 100;
+		int critChance = (int)(Math.random() * 100) + 1;
+		if (critChance <= 75)
+			dmg *= 2;
+		p.currentHP -= dmg;
+	}
+	
+	@Override
+	public void heavy(Pokemon p) {
+		this.currentHP += 10; 
+	}
+
+}
