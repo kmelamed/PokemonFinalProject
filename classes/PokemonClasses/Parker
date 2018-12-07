@@ -15,7 +15,11 @@ public class Parker extends Pokemon{
 
 	@Override
 	public void heavy(Pokemon p) {
-		this.currentHP += 10; 
+		if (this.currentHP <= this.totalHP - 10)
+			this.currentHP += 10; 
+		else { 
+			this.currentHP = this.totalHP; 
+		}
 		p.currentHP -= 10; 
 	}
 
