@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public class Player extends Character {
 	int numPotions;
 	
-	Player(String s, ArrayList<Pokemon> p) {
-		super(s, p);
+	Player(String s, ArrayList<Pokemon> p, int r, int c) {
+		super(s, p, r, c);
 		numPotions = 10;
 	}
 
