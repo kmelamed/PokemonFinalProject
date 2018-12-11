@@ -1,3 +1,4 @@
+
 public abstract class Pokemon {
 	String name;
 	String nickName;
@@ -9,7 +10,7 @@ public abstract class Pokemon {
 	int speed;
 	
 	public abstract void fast(Pokemon p);
-	public abstract void slow(Pokemon p);
+	public abstract void heavy(Pokemon p);
 	
 	public Pokemon(String n, String nn, char t, int tHP, int d, int s) {
 		name = n;
@@ -22,5 +23,8 @@ public abstract class Pokemon {
 		speed = s;
 	}
 	
+	public String toString() {
+		return nickName + " (" + name + ") HP: " + currentHP + " DEF: " + currentDef + " SPD: " + speed;
+	}
+	
 }
-
