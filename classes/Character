@@ -7,9 +7,11 @@ public abstract class Character {
 	int row; 
 	int col; 
 
-	Character(String n, ArrayList<Pokemon> p) {
+	Character(String n, ArrayList<Pokemon> p, int r, int c) {
 		name = n;
 		pokemon = p;
+		row = r;
+		col = c;
 	}
 
 	public String getName() {
