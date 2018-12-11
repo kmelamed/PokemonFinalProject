@@ -1,18 +1,11 @@
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Board {
-	
-	public static void main(String[] args) { 
-		
-		char[][] test = generateBoard(11,4); 
-		
-		printBoard(test); 
-		
-	}
 	
 	char[][] board; 
 	int length; 
 	int width; 
+	static ArrayList<Trainer> trainers; 
 
 	Board(int l, int w) { 
 		length = l; 
@@ -28,8 +21,9 @@ public class Board {
 				board[i][j] = '_'; 
 			}
 		}
-		int rockCounter = 4; 
-		int bushCounter = 4; 
+		int rockCounter = 6; 
+		int bushCounter = 10; 
+		int trainerCounter = 2; 
 		
 		for (int i = 0; i < bushCounter; i++) { 
 			int row = (int) (Math.random() * w); 
@@ -43,9 +37,8 @@ public class Board {
 			board[row][col] = 'B'; 
 			
 		}
-		
-		
-		for (int i = 0; i < rockCounter; i++) { 
+		int counter = 0; 
+		while (counter < rockCounter){ 
 			int row = (int) (Math.random() * w); 
 			int col = (int) (Math.random() * (l - 2));
 			
@@ -53,17 +46,62 @@ public class Board {
 				row = (int) (Math.random() * w); 
 				col = (int) (Math.random() * (l - 2));
 			}
-			
-			board[row][col] = 'R'; 
-			
+			if (isOk(board, row, col)) { 
+				board[row][col] = 'R'; 
+				counter ++; 
+			}
 		}
 		
+		ArrayList<Trainer> trainerList = new ArrayList<>();
+		
+		
+		String[] names = {"Aidyl", "Gerard", "Daniel", "Brain", "Nohemi", "Tami", "Joanne", "Juan", "Ladan", "Yvonne",
+				"Rob", "Mel", "Michelle"}; 
+		ArrayList<String> listofNames = new ArrayList<>();
+		
+		Pokemon[] arrayofPokemon = {new Riley("Riley"), new Kaylen("Kaylen"), new Robert("Robert"), new Dillon("Dillon"), 
+				new Parker("Parker")}; 
+		
+		ArrayList<Pokemon> pokemons = new ArrayList<>(); 
+		for (int i = 0; i < arrayofPokemon.length; i ++) { 
+			pokemons.add(arrayofPokemon[i]);
+		}
+
+		
+		for (int i = 0; i < names.length; i ++) { 
+			listofNames.add(names[i]); 
+		}
+		
+		for (int i = 0; i < trainerCounter; i++) { 
+			int row = (int) (Math.random() * w); 
+			int col = (int) (Math.random() * (l - 2));
+			
+			while (board[row][col] != '_') { 
+				row = (int) (Math.random() * w); 
+				col = (int) (Math.random() * (l - 2));
+			}
+
+			int nameIndex = (int) (Math.random() * listofNames.size()); 
+			
+			int pokemonNumber = (int) (Math.random() * 3 + 1); 
+			
+			ArrayList<Pokemon> trainerPokemon = new ArrayList<>(); 
+			for (int j = 0; j < pokemonNumber; j++) { 
+				trainerPokemon.add(pokemons.get((int) (Math.random() * pokemons.size()))); 
+			}
+			
+			
+			trainerList.add(new Trainer(listofNames.get(nameIndex), trainerPokemon, row, col)); 
+			board[row][col] = 'T';
+		}
+		
+		trainers = trainerList; 
+		
 		return board; 
-		
-		
+			
 	}
 	
-	public boolean isOk (char[][] board, int i, int j) {
+	public static boolean isOk (char[][] board, int i, int j) {
 		int[] di = {-1, -1, -1, 0, 0, 0, 1, 1, 1}, dj = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
 		for (int k = 0; k < 9; k++) {
 			int toI = i + di[k];
@@ -79,9 +117,9 @@ public class Board {
 	public static void printBoard(char[][] board) { 
 		for (int i = 0; i < board.length; i++) { 
 			for (int j = 0; j < board[0].length; j++) { 
-				System.out.print(board[i][j] + " ");
+				System.out.print(board[i][j] + "  ");
 			}
-			System.out.println();
+			System.out.println("\n");
 		}
 	}
 
