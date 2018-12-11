@@ -1,0 +1,15 @@
+
+public class PokemonMain {
+	
+	public static void main(String[] args) {
+	
+		char[][] board = Board.generateBoard(15, 4);
+		
+		Board.printBoard(board);
+		
+		
+		
+
+	}
+	
+}
