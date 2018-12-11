@@ -3,12 +3,53 @@ import java.util.ArrayList;
 public abstract class Character {
 	String name;
 	ArrayList<Pokemon> pokemon;
+	ArrayList<Pokemon> graveyard;
 	int row; 
 	int col; 
-	
+
 	Character(String n, ArrayList<Pokemon> p) {
 		name = n;
 		pokemon = p;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public ArrayList<Pokemon> getPokemon() {
+		return pokemon;
+	}
+	
+	public ArrayList<Pokemon> getGraveyard() {
+		return graveyard;
+	}
+
+	public void setGraveyard(ArrayList<Pokemon> graveyard) {
+		this.graveyard = graveyard;
+	}
+
+	public void setPokemon(ArrayList<Pokemon> pokemon) {
+		this.pokemon = pokemon;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public int getCol() {
+		return col;
+	}
+
+	public void setCol(int col) {
+		this.col = col;
 	}
 	
 }
