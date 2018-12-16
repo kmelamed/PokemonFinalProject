@@ -16,12 +16,8 @@ public class Battle {
 		Pokemon tPokemon = t.pokemon.get(0);
 		
 		while(p.pokemon.size() > 0 && t.pokemon.size() > 0) {
-//			Pokemon p = player.getPokemon();
-//			Pokemon t = trainer.getPokemon();
-			
-			
-//			System.out.println(p.getName() + " HP: " + p.getCurrentHP() + " / " + p.getTotalHP());
-//			System.out.println("/n/n/n/n/n/n" + t.getName() + " HP: " + t.getCurrentHP() + " / " + t.getTotalHP());
+			System.out.println(pPokemon);
+			System.out.println(tPokemon);
 			
 			System.out.println("1. Attack");
 			System.out.println("2. Potion");
