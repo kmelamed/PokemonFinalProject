@@ -1,0 +1,81 @@
+// This wont actually work
+
+import java.util.Scanner;
+
+public class Battle {
+	
+	public static void battleTrainer(Player p, Trainer t) {
+		Scanner input = new Scanner(System.in);
+		
+		System.out.println("Choose your pokemon: ");
+		for (int i = 1; i <= p.pokemon.size(); i++) {
+			System.out.println(i + ". " + p.pokemon.get(i - 1).toStringAbrev());
+		}
+		int pokemonChoice = input.nextInt();
+		Pokemon pPokemon = p.pokemon.get(pokemonChoice);
+		Pokemon tPokemon = t.pokemon.get(0);
+		
+		while(p.pokemon.size() > 0 && t.pokemon.size() > 0) {
+//			Pokemon p = player.getPokemon();
+//			Pokemon t = trainer.getPokemon();
+			
+			
+//			System.out.println(p.getName() + " HP: " + p.getCurrentHP() + " / " + p.getTotalHP());
+//			System.out.println("/n/n/n/n/n/n" + t.getName() + " HP: " + t.getCurrentHP() + " / " + t.getTotalHP());
+			
+			System.out.println("1. Attack");
+			System.out.println("2. Potion");
+			
+			int userChoice = input.nextInt();
+			if(userChoice == 1) {
+				System.out.println("1. fast attack");
+				System.out.println("2. heavy attack");
+				int moveChoice = input.nextInt();
+				
+				if(moveChoice == 1) {
+					int enemyMove = (int)(Math.random() * 2 + 1);
+					if(moveChoice == enemyMove) {
+						if(pPokemon.speed >= tPokemon.speed) {
+							pPokemon.fast(tPokemon);
+							tPokemon.fast(tPokemon);
+						}
+						else {
+							tPokemon.fast(tPokemon);
+							pPokemon.fast(tPokemon);
+						}
+					}
+					else {
+						pPokemon.fast(tPokemon);
+						tPokemon.heavy(tPokemon);
+					}
+				}
+				else {
+					int enemyMove = (int)(Math.random() * 2 + 1);
+					if(moveChoice == enemyMove) {
+						if(pPokemon.speed >= tPokemon.speed) {
+							pPokemon.heavy(tPokemon);
+							tPokemon.heavy(tPokemon);
+						}
+						else {
+							tPokemon.heavy(tPokemon);
+							pPokemon.heavy(tPokemon);
+						}
+					}
+					else {
+						tPokemon.fast(tPokemon);
+						pPokemon.heavy(tPokemon);
+					}
+				}
+			}
+			else if(userChoice == 2) {
+				System.out.println("You used one potion, you have " + (p.numPotions - 1) + " left");
+				p.numPotions--;
+				if (pPokemon.currentHP + 50 > pPokemon.totalHP) {
+					pPokemon.currentHP = pPokemon.totalHP;
+				} else {
+					pPokemon.currentHP += 50;
+				}
+			}
+		}
+	}
+}
