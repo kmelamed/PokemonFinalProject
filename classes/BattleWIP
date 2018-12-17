@@ -1,33 +1,29 @@
-// This still wont actually work
+// This kind of works
 
 import java.util.Scanner;
 
 public class Battle {
 	
 	public static void battleWild(Player p, Pokemon wPokemon) {
-		Scanner input = new Scanner(System.in);
+		Scanner inputBW = new Scanner(System.in);
 		
-		System.out.println("Choose your pokemon: ");
-		for (int i = 1; i <= p.pokemon.size(); i++) {
-			System.out.println(i + ". " + p.pokemon.get(i - 1).toStringAbrev());
-		}
-		int pokemonChoice = input.nextInt();
-		Pokemon pPokemon = p.pokemon.get(pokemonChoice - 1);
+		int pChoice = pokemonChoice(p);
+		Pokemon pPokemon = p.pokemon.get(pChoice - 1);
 		
 		while (p.pokemon.size() > 0 && wPokemon.isAlive()) {
-			System.out.println(pPokemon);
+			System.out.println("\n" + pPokemon);
 			System.out.println(wPokemon);
 			
-			System.out.println("1. Attack");
+			System.out.println("\n1. Attack");
 			System.out.println("2. Potion");
 			
-			int userChoice = input.nextInt();
+			int userChoice = inputBW.nextInt();
 			if (userChoice == 2 && p.numPotions == 0)
 				userChoice = 1;
 			if (userChoice == 1) {
 				System.out.println("1. fast attack");
 				System.out.println("2. heavy attack");
-				int moveChoice = input.nextInt();
+				int moveChoice = inputBW.nextInt();
 				
 				if (moveChoice == 1) {
 					int enemyMove = (int)(Math.random() * 2 + 1);
@@ -35,6 +31,9 @@ public class Battle {
 						if (pPokemon.speed >= wPokemon.speed) {
 							pPokemon.fast(wPokemon);
 							wPokemon.fast(pPokemon);
+							if (pPokemon.currentHP <= 0) {
+								p.graveyard.add(p.pokemon.remove(pChoice - 1));
+							}
 						}
 						else {
 							wPokemon.fast(pPokemon);
@@ -74,6 +73,8 @@ public class Battle {
 				}
 			}
 		}
+		
+		inputBW.close();
 		if (wPokemon.currentHP <= 0) {
 			System.out.println("You defeated the wild " + wPokemon.name + "!");
 			// Need to go back to the board
@@ -84,13 +85,13 @@ public class Battle {
 	}
 	
 	public static void battleTrainer(Player p, Trainer t) {
-		Scanner input = new Scanner(System.in);
+		Scanner inputBT = new Scanner(System.in);
 		
 		System.out.println("Choose your pokemon: ");
 		for (int i = 1; i <= p.pokemon.size(); i++) {
 			System.out.println(i + ". " + p.pokemon.get(i - 1).toStringAbrev());
 		}
-		int pokemonChoice = input.nextInt();
+		int pokemonChoice = inputBT.nextInt();
 		Pokemon pPokemon = p.pokemon.get(pokemonChoice);
 		Pokemon tPokemon = t.pokemon.get(0);
 		
@@ -101,11 +102,11 @@ public class Battle {
 			System.out.println("1. Attack");
 			System.out.println("2. Potion");
 			
-			int userChoice = input.nextInt();
+			int userChoice = inputBT.nextInt();
 			if (userChoice == 1) {
 				System.out.println("1. fast attack");
 				System.out.println("2. heavy attack");
-				int moveChoice = input.nextInt();
+				int moveChoice = inputBT.nextInt();
 				
 				if (moveChoice == 1) {
 					int enemyMove = (int)(Math.random() * 2 + 1);
@@ -150,9 +151,17 @@ public class Battle {
 				} else {
 					pPokemon.currentHP += 50;
 				}
+				
+				int enemyMove = (int)(Math.random() * 2 + 1);
+				if (enemyMove == 1) {
+					tPokemon.fast(pPokemon);
+				} else {
+					tPokemon.heavy(pPokemon);
+				}
 			}
 		}
 		
+		inputBT.close();
 		if (t.pokemon.size() == 0) {
 			System.out.println("You defeated the trainer!");
 			// Need to go back to the board
@@ -160,5 +169,24 @@ public class Battle {
 			System.out.println("You lost :(");
 			// Option to start over or stop playing
 		}
+	}
+	
+	public static int pokemonChoice(Player p) {
+		Scanner inputPC = new Scanner(System.in);
+		System.out.println("Choose your pokemon: ");
+		for (int i = 1; i <= p.pokemon.size(); i++) {
+			System.out.println(i + ". " + p.pokemon.get(i - 1).toStringAbrev());
+		}
+		int x = inputPC.nextInt();
+		inputPC.close();
+		return x;
+	}
+	
+	public static void win() {
+		
+	}
+	
+	public static void lose() {
+		
 	}
 }
