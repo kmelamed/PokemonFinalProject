@@ -1,8 +1,87 @@
-// This wont actually work
+// This still wont actually work
 
 import java.util.Scanner;
 
 public class Battle {
+	
+	public static void battleWild(Player p, Pokemon wPokemon) {
+		Scanner input = new Scanner(System.in);
+		
+		System.out.println("Choose your pokemon: ");
+		for (int i = 1; i <= p.pokemon.size(); i++) {
+			System.out.println(i + ". " + p.pokemon.get(i - 1).toStringAbrev());
+		}
+		int pokemonChoice = input.nextInt();
+		Pokemon pPokemon = p.pokemon.get(pokemonChoice - 1);
+		
+		while (p.pokemon.size() > 0 && wPokemon.isAlive()) {
+			System.out.println(pPokemon);
+			System.out.println(wPokemon);
+			
+			System.out.println("1. Attack");
+			System.out.println("2. Potion");
+			
+			int userChoice = input.nextInt();
+			if (userChoice == 2 && p.numPotions == 0)
+				userChoice = 1;
+			if (userChoice == 1) {
+				System.out.println("1. fast attack");
+				System.out.println("2. heavy attack");
+				int moveChoice = input.nextInt();
+				
+				if (moveChoice == 1) {
+					int enemyMove = (int)(Math.random() * 2 + 1);
+					if (moveChoice == enemyMove) {
+						if (pPokemon.speed >= wPokemon.speed) {
+							pPokemon.fast(wPokemon);
+							wPokemon.fast(pPokemon);
+						}
+						else {
+							wPokemon.fast(pPokemon);
+							pPokemon.fast(wPokemon);
+						}
+					}
+					else {
+						pPokemon.fast(wPokemon);
+						wPokemon.heavy(pPokemon);
+					}
+				}
+				else {
+					int enemyMove = (int)(Math.random() * 2 + 1);
+					if (moveChoice == enemyMove) {
+						if (pPokemon.speed >= wPokemon.speed) {
+							pPokemon.heavy(wPokemon);
+							wPokemon.heavy(pPokemon);
+						}
+						else {
+							wPokemon.heavy(pPokemon);
+							pPokemon.heavy(wPokemon);
+						}
+					}
+					else {
+						wPokemon.fast(pPokemon);
+						pPokemon.heavy(wPokemon);
+					}
+				}
+			}
+			else if (userChoice == 2) {
+				System.out.println("You used one potion, you have " + (p.numPotions - 1) + " left");
+				p.numPotions--;
+				if (pPokemon.currentHP + 50 > pPokemon.totalHP) {
+					pPokemon.currentHP = pPokemon.totalHP;
+				} else {
+					pPokemon.currentHP += 50;
+				}
+			}
+		}
+		if (wPokemon.currentHP <= 0) {
+			System.out.println("You defeated the wild " + wPokemon.name + "!");
+			// Need to go back to the board
+		} else {
+			System.out.println("You lost :(");
+			// Option to start over or stop playing
+		}
+	}
 	
 	public static void battleTrainer(Player p, Trainer t) {
 		Scanner input = new Scanner(System.in);
@@ -15,7 +94,7 @@ public class Battle {
 		Pokemon pPokemon = p.pokemon.get(pokemonChoice);
 		Pokemon tPokemon = t.pokemon.get(0);
 		
-		while(p.pokemon.size() > 0 && t.pokemon.size() > 0) {
+		while (p.pokemon.size() > 0 && t.pokemon.size() > 0) {
 			System.out.println(pPokemon);
 			System.out.println(tPokemon);
 			
@@ -23,15 +102,15 @@ public class Battle {
 			System.out.println("2. Potion");
 			
 			int userChoice = input.nextInt();
-			if(userChoice == 1) {
+			if (userChoice == 1) {
 				System.out.println("1. fast attack");
 				System.out.println("2. heavy attack");
 				int moveChoice = input.nextInt();
 				
-				if(moveChoice == 1) {
+				if (moveChoice == 1) {
 					int enemyMove = (int)(Math.random() * 2 + 1);
-					if(moveChoice == enemyMove) {
-						if(pPokemon.speed >= tPokemon.speed) {
+					if (moveChoice == enemyMove) {
+						if (pPokemon.speed >= tPokemon.speed) {
 							pPokemon.fast(tPokemon);
 							tPokemon.fast(tPokemon);
 						}
@@ -47,8 +126,8 @@ public class Battle {
 				}
 				else {
 					int enemyMove = (int)(Math.random() * 2 + 1);
-					if(moveChoice == enemyMove) {
-						if(pPokemon.speed >= tPokemon.speed) {
+					if (moveChoice == enemyMove) {
+						if (pPokemon.speed >= tPokemon.speed) {
 							pPokemon.heavy(tPokemon);
 							tPokemon.heavy(tPokemon);
 						}
@@ -63,7 +142,7 @@ public class Battle {
 					}
 				}
 			}
-			else if(userChoice == 2) {
+			else if (userChoice == 2) {
 				System.out.println("You used one potion, you have " + (p.numPotions - 1) + " left");
 				p.numPotions--;
 				if (pPokemon.currentHP + 50 > pPokemon.totalHP) {
@@ -72,6 +151,14 @@ public class Battle {
 					pPokemon.currentHP += 50;
 				}
 			}
+		}
+		
+		if (t.pokemon.size() == 0) {
+			System.out.println("You defeated the trainer!");
+			// Need to go back to the board
+		} else {
+			System.out.println("You lost :(");
+			// Option to start over or stop playing
 		}
 	}
 }
