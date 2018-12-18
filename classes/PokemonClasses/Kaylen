@@ -1,4 +1,3 @@
-
 public class Kaylen extends Pokemon {
 
 	String fastAtk = "";
@@ -10,16 +9,17 @@ public class Kaylen extends Pokemon {
 
 
 	@Override
-	public void fast(Pokemon p) {
+	public int fast(Pokemon p) {
 		int dmg = 20;
 		int critChance = (int)(Math.random() * 20) + 1;
 		if (critChance == 20)
 			dmg *= 2;
 		p.currentHP -= dmg;
+		return dmg; 
 	}
 	
 	@Override
-	public void heavy(Pokemon p) {
+	public int heavy(Pokemon p) {
 		int dmg = 50 - p.currentDef;
 		int critChance = (int)(Math.random() * 20) + 1;
 		
@@ -31,6 +31,7 @@ public class Kaylen extends Pokemon {
 		if (critChance == 20)
 			dmg *= 2;
 		p.currentHP -= dmg;
+		return dmg; 
 	}
 
 }
