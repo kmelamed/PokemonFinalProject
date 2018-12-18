@@ -1,4 +1,3 @@
-
 public class Dillon extends Pokemon {
 
 	public Dillon(String name) {
