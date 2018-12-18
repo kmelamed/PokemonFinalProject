@@ -23,8 +23,18 @@ public abstract class Pokemon {
 		speed = s;
 	}
 	
+	public boolean isAlive() {
+		return currentHP > 0;
+	}
+	
 	public String toString() {
-		return nickName + " (" + name + ") HP: " + currentHP + " DEF: " + currentDef + " SPD: " + speed;
+		if (nickName.equals(""))
+			return name + " (" + name + ", " + type + ") HP: " + currentHP + " DEF: " + currentDef + " SPD: " + speed;
+		return nickName + " (" + name + ", " + type + ") HP: " + currentHP + " DEF: " + currentDef + " SPD: " + speed;
+	}
+	
+	public String toStringAbrev() {
+		return nickName + " (" + name + ", " + type + ")";
 	}
 	
 }
