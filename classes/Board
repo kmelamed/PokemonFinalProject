@@ -25,10 +25,13 @@ public class Board {
 			}
 		}
 		
+		// number of rocks, bushes and trainers on the board. these values can be edited here
 		int rockCounter = 6; 
 		int bushCounter = 10; 
 		int trainerCounter = 2; 
 
+		// randomly adds bushes
+		// isOk method is not used because the player cannot be blocked by the bushes 
 		for (int i = 0; i < bushCounter; i++) { 
 			int row = (int) (Math.random() * w); 
 			int col = (int) (Math.random() * (l - 2));
@@ -41,6 +44,7 @@ public class Board {
 			board[row][col] = 'B'; 
 
 		}
+		// adds rocks to the board randomly, uses the isOk method to ensure that the path cannot be blocked 
 		int counter = 0; 
 		while (counter < rockCounter){ 
 			int row = (int) (Math.random() * w); 
@@ -58,24 +62,26 @@ public class Board {
 
 		ArrayList<Trainer> trainerList = new ArrayList<>();
 
-
+		// list of all the names of the trainers 
 		String[] names = {"Aidyl", "Gerard", "Daniel", "Brain", "Nohemi", "Tami", "Joanne", "Juan", "Ladan", "Yvonne",
 				"Rob", "Mel", "Michelle"}; 
 		ArrayList<String> listofNames = new ArrayList<>();
 
+		// array of all the pokemon
 		Pokemon[] arrayofPokemon = {new Riley("Riley"), new Kaylen("Kaylen"), new Robert("Robert"), new Dillon("Dillon"), 
 				new Parker("Parker")}; 
 
+		// adds all the pokemon from the array to an array list to randomly select from 
 		ArrayList<Pokemon> pokemons = new ArrayList<>(); 
 		for (int i = 0; i < arrayofPokemon.length; i ++) { 
 			pokemons.add(arrayofPokemon[i]);
 		}
 
-
 		for (int i = 0; i < names.length; i ++) { 
 			listofNames.add(names[i]); 
 		}
 
+		// place the trainers randomly on the board, but make sure that a trainer is not placed on top of another trainer
 		for (int i = 0; i < trainerCounter; i++) { 
 			int row = (int) (Math.random() * w); 
 			int col = (int) (Math.random() * (l - 2));
@@ -85,16 +91,20 @@ public class Board {
 				col = (int) (Math.random() * (l - 2));
 			}
 
+			
 			int nameIndex = (int) (Math.random() * listofNames.size()); 
 
+			// each trainer gets a random number of pokemon between 1 and 3
 			int pokemonNumber = (int) (Math.random() * 3 + 1); 
 
+			// add between 1 and 3 pokemon to the trainer's pokemon array list randomly 
 			ArrayList<Pokemon> trainerPokemon = new ArrayList<>(); 
 			for (int j = 0; j < pokemonNumber; j++) { 
 				trainerPokemon.add(pokemons.get((int) (Math.random() * pokemons.size()))); 
 			}
 
 
+			// adds each trainer object to the array list of trainers
 			trainerList.add(new Trainer(listofNames.get(nameIndex), trainerPokemon, row, col)); 
 
 			board[row][col] = 'T';
@@ -108,6 +118,8 @@ public class Board {
 
 	}
 
+	// this method returns true if there are no rocks within one square of the current location (inculding diagonal)
+	// makes sure that the player's path cannot be blocked by rocks 
 	public static boolean isOk (char[][] board, int i, int j) {
 		int[] di = {-1, -1, -1, 0, 0, 0, 1, 1, 1}, dj = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
 		for (int k = 0; k < 9; k++) {
@@ -121,26 +133,38 @@ public class Board {
 		return true;
 	}
 
+	// prints the playing board
 	public static void printBoard(char[][] board) { 
+		
+		System.out.println("|-------------------------------------------|");
+		System.out.println("|----------------- LEVEL " + Play.currentLevel + " -----------------|");
+		System.out.println("|-------------------------------------------|");
+		System.out.println();
+		
 		for (int i = 0; i < board.length; i++) { 
 			for (int j = 0; j < board[0].length; j++) { 
-				System.out.print(board[i][j] + "  ");
+				System.out.print(" " + board[i][j] + " ");
+					
 			}
 			System.out.println("\n");
 		}
 	}
 
+	// allows the player to move from user input: n, s, e, w
+	// player cannot move onto a rock or onto a trainer 
+	// player can move through/on a bush, and if they hit a bush there is a 1/5 chance that a wild pokemon attacks 
+	// if the player moves into the same column of the trainer, they will need to battle the trainer 
+	// a player moves up to the next level after defeating all trainers 
+	// trainers will disappear after losing the battle
+	// if a player loses the battle with the trainer, they lose the game 
 	public static void move(String str, Player player, char[][] bd) throws IOException { 
 		
 		str = str.toLowerCase();
 		
-		 
 		int oldCol = player.col; 
 		int oldRow = player.row; 
 		int newRow = 0; 
 		int newCol = 0; 
-
-		//		System.out.println("OLD: " + oldRow + ", " + oldCol);
 
 		if (str.charAt(0) == 'w' && player.col >= 1 && bd[player.row][player.col - 1] != 'R' && bd[player.row][player.col - 1] != 'T') { 
 			newCol = player.col - 1;
@@ -159,9 +183,6 @@ public class Board {
 			newCol = oldCol; 
 		}
 
-		//		System.out.println("NEW: " + newRow + ", " + newCol);
-
-
 		//check to see if the new spot is unique and if it is moving into a bush or not
 		if (oldRow != newRow || oldCol != newCol) {  
 			if (player.isInBush) {
@@ -173,9 +194,6 @@ public class Board {
 			if (bd[newRow][newCol] == 'B') { 
 				player.isInBush = true;
 				bd[newRow][newCol] = 'P'; 
-				System.out.println("|---------------------------------------|");
-				System.out.println("|----------------LEVEL " + Play.currentLevel + "----------------|");
-				System.out.println("|---------------------------------------|");
 				printBoard(bd); 
 				// generates a random integer that decides if a wild pokemon will attack
 				int wildPokemonChance = (int) (Math.random() * 5); 
@@ -185,6 +203,7 @@ public class Board {
 						System.out.println("\n\n");
 						Play.start(); 
 					}
+					Battle.restoreHealth(player);
 
 					if (player.pokemon.size() > 1) { 
 						String result = ""; 
@@ -213,21 +232,15 @@ public class Board {
 		player.row = newRow; 
 		player.col = newCol; 
 
-
-		// check to see if there is a trainer in the same column
-		// if the player ends up in the same column of the trainer, they will need to battle 
-		// as of now, the trainer can fight through rocks and bushes 
-
 	
-
+		// sets the board equal to the board that has been edited in this method
 		board = bd; 
-		
-		System.out.println("|---------------------------------------|");
-		System.out.println("|----------------LEVEL " + Play.currentLevel + "----------------|");
-		System.out.println("|---------------------------------------|");
 		
 		printBoard(bd); 
 		
+		// check to see if there is a trainer in the same column
+		// if the player ends up in the same column of the trainer, they will need to battle 
+		// as of now, the trainer can fight through rocks and bushes 
 		for (int i = trainers.size() - 1; i >= 0; i --) { 
 			Trainer t = trainers.get(i); 
 
@@ -236,6 +249,7 @@ public class Board {
 				if (Battle.battleTrainer(player, t)) { 
 					trainers.remove(trainers.get(i)); 
 					board[t.row][t.col] = '_'; 
+					Battle.restoreHealth(player);
 				} else { 
 					return; 
 				}
@@ -243,15 +257,16 @@ public class Board {
 
 		}
 
-
 	}
 
+	// method to print 40 blank lines
 	static void printLines() { 
 		for (int i = 0; i < 40; i++) { 
 			System.out.println();
 		}
 	}
 
+	// returns a wild pokemon
 	static Pokemon getWild() { 
 		Pokemon[] arrayofPokemon = {new Riley("Riley"), new Kaylen("Kaylen"), new Robert("Robert"), new Dillon("Dillon"), 
 				new Parker("Parker")}; 
