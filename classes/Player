@@ -2,10 +2,12 @@ import java.util.ArrayList;
 
 public class Player extends Character {
 	int numPotions;
+	boolean isInBush; 
 	
-	Player(String s, ArrayList<Pokemon> p, int r, int c) {
+	Player(String s, ArrayList<Pokemon> p, int r, int c, boolean inB) {
 		super(s, p, r, c);
 		numPotions = 10;
+		isInBush = inB; 
 	}
 
 	public int getNumPotions() {
