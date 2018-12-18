@@ -27,7 +27,6 @@ public class Play {
 		}
 		System.out.println(hashmarks + "\n" + hashmarks + "\n" + hashmarks + "\n");
 		
-		System.out.println();
 		
 		ArrayList<Pokemon> pokemon = new ArrayList<>();
 		int numPokemon = 0; 
