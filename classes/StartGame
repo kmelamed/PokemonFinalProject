@@ -1,6 +1,6 @@
 import java.io.IOException;
 
-public class Start {
+public class StartGame {
 
 	public static void main(String[] args) throws IOException {
 		Play.start();
