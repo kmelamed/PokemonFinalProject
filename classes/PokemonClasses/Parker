@@ -7,7 +7,7 @@ public class Parker extends Pokemon{
 
 	@Override
 	public void fast(Pokemon p) {
-		int dmg = 20; 
+		int dmg = 25; 
 		if (p.type == 'W')
 			dmg *= 2; 
 		p.currentHP -= dmg; 
@@ -16,10 +16,9 @@ public class Parker extends Pokemon{
 	@Override
 	public void heavy(Pokemon p) {
 		if (this.currentHP <= this.totalHP - 10)
-			this.currentHP += 10; 
-		else { 
+			this.currentHP += 20; 
+		else
 			this.currentHP = this.totalHP; 
-		}
 		p.currentHP -= 10; 
 	}
 
