@@ -12,46 +12,7 @@ public abstract class Character {
 		pokemon = p;
 		row = r;
 		col = c;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public ArrayList<Pokemon> getPokemon() {
-		return pokemon;
-	}
-	
-	public ArrayList<Pokemon> getGraveyard() {
-		return graveyard;
-	}
-
-	public void setGraveyard(ArrayList<Pokemon> graveyard) {
-		this.graveyard = graveyard;
-	}
-
-	public void setPokemon(ArrayList<Pokemon> pokemon) {
-		this.pokemon = pokemon;
-	}
-
-	public int getRow() {
-		return row;
-	}
-
-	public void setRow(int row) {
-		this.row = row;
-	}
-
-	public int getCol() {
-		return col;
-	}
-
-	public void setCol(int col) {
-		this.col = col;
+		graveyard = new ArrayList<>();
 	}
 	
 }
