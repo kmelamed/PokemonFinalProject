@@ -195,6 +195,7 @@ public class Board {
 			if (newCol == t.col) { 
 				System.out.println("BATTLE with: " + t.name);
 				// for now this removes the trainer whenever the person goes in front of it since we haven't added the battle
+				trainers.remove(trainers.get(i)); 
 				board[t.row][t.col] = '_'; 
 			}
 			
