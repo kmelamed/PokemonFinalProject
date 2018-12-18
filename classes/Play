@@ -4,20 +4,14 @@ import java.util.Scanner;
 
 public class Play {
 	static final int NUMBER_OF_LEVELS = 5; 
-	static final int NUMBER_OF_POKEMON = 1; 
-	static int currentLevel; 
-
-//	public static void main(String[] args) throws IOException {
-//		play(); 
-//
-//	}
+	static final int NUMBER_OF_POKEMON = 3; 
+	static int currentLevel;
 	
 	static void start() throws IOException { 
 		Scanner in = new Scanner(System.in); 
 
 		// initialize the Pokemon array
-		Pokemon[] pokemonArray = {new Riley("Riley"), new Kaylen("Kaylen"), new Robert("Robert"), new Dillon("Dillon"), 
-				new Parker("Parker")};
+		String[] pokemonArray = {"Riley", "Kaylen", "Robert", "Dillon", "Parker"};
 		
 		for (int i = 0; i < pokemonArray.length; i++) { 
 			System.out.println("Select " + (i + 1) + " for Pokemon: " + pokemonArray[i]);
@@ -27,12 +21,32 @@ public class Play {
 		ArrayList<Pokemon> pokemon = new ArrayList<>();
 		int numPokemon = 0; 
 		int selection; 
+		String name;
 		//allow the user to choose which pokemon they want to use 
 		while (numPokemon < NUMBER_OF_POKEMON) { 
 			System.out.print("Make a selection (1-5): ");
 			selection = in.nextInt(); 
-			pokemon.add(pokemonArray[selection - 1]); 
-			numPokemon++; 
+			System.out.print("Enter a nickname: ");
+			name = in.nextLine();
+			// Not a switch statement
+			if (selection == 1) {
+				pokemon.add(new Riley(name));
+				numPokemon++; 
+			} else if (selection == 2) {
+				pokemon.add(new Kaylen(name));
+				numPokemon++; 
+			} else if (selection == 3) {
+				pokemon.add(new Robert(name));
+				numPokemon++; 
+			} else if (selection == 4) {
+				pokemon.add(new Dillon(name));
+				numPokemon++; 
+			} else if (selection == 5){
+				pokemon.add(new Parker(name));
+				numPokemon++; 
+			} else {
+				System.out.println("Enter a valid number.");
+			}
 		}
 		
 		//print the pokemon that were selected
