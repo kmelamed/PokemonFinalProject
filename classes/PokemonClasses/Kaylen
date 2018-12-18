@@ -1,3 +1,4 @@
+
 public class Kaylen extends Pokemon {
 
 	String fastAtk = "";
@@ -15,7 +16,7 @@ public class Kaylen extends Pokemon {
 		if (critChance == 20)
 			dmg *= 2;
 		p.currentHP -= dmg;
-		return dmg; 
+		return dmg;
 	}
 	
 	@Override
@@ -31,7 +32,7 @@ public class Kaylen extends Pokemon {
 		if (critChance == 20)
 			dmg *= 2;
 		p.currentHP -= dmg;
-		return dmg; 
+		return dmg;
 	}
 
 }
