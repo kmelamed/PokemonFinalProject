@@ -10,7 +10,7 @@ public class Dillon extends Pokemon {
 		int dmg = 100;
 		int critChance = (int)(Math.random() * 100) + 1;
 		if (critChance <= 75)
-			dmg *= 2;
+			dmg *= 4;
 		p.currentHP -= dmg;
 	}
 	
