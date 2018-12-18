@@ -27,7 +27,7 @@ public class Play {
 			System.out.print("Make a selection (1-5): ");
 			selection = in.nextInt(); 
 			System.out.print("Enter a nickname: ");
-			name = in.nextLine();
+			name = in.next();
 			// Not a switch statement
 			if (selection == 1) {
 				pokemon.add(new Riley(name));
