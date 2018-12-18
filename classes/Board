@@ -100,9 +100,19 @@ public class Board {
 			// add between 1 and 3 pokemon to the trainer's pokemon array list randomly 
 			ArrayList<Pokemon> trainerPokemon = new ArrayList<>(); 
 			for (int j = 0; j < pokemonNumber; j++) { 
-				trainerPokemon.add(pokemons.get((int) (Math.random() * pokemons.size()))); 
+				int selection = (int) (Math.random() * pokemons.size()); 
+				if (selection == 1) {
+					trainerPokemon.add(new Riley(""));
+				} else if (selection == 2) {
+					trainerPokemon.add(new Kaylen(""));
+				} else if (selection == 3) {
+					trainerPokemon.add(new Robert("")); 
+				} else if (selection == 4) {
+					trainerPokemon.add(new Dillon(""));
+				} else if (selection == 5){
+					trainerPokemon.add(new Parker(""));
+				}
 			}
-
 
 			// adds each trainer object to the array list of trainers
 			trainerList.add(new Trainer(listofNames.get(nameIndex), trainerPokemon, row, col)); 
