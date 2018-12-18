@@ -8,21 +8,20 @@ public class Robert extends Pokemon {
 
 	@Override
 	public void fast(Pokemon p) {
-		this.currentHP += 10; 
-		
+		this.currentHP += 20; 
 	}
 
 	@Override
 	public void heavy(Pokemon p) {
-		int dmg = 40 - p.def;
+		int dmg = 40 - p.currentDef;
 		int critChance = (int)(Math.random() * 20) + 1;
-	
+		
 		if (p.type == 'W') 
 			dmg *= 2;	
 		else if (p.type == 'F') 
 			dmg /= 2;
 		
-		if (critChance == 20)
+		if (critChance == 10)
 			dmg *= 2;
 		p.currentHP -= dmg;
 	}
