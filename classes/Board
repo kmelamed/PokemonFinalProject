@@ -177,8 +177,9 @@ public class Board {
 				System.out.println("|----------------LEVEL " + Play.currentLevel + "----------------|");
 				System.out.println("|---------------------------------------|");
 				printBoard(bd); 
-				int wildPokemonChance = (int) (Math.random() * 10); 
-				if (wildPokemonChance == 5) { 
+				// generates a random integer that decides if a wild pokemon will attack
+				int wildPokemonChance = (int) (Math.random() * 5); 
+				if (wildPokemonChance == 2) { 
 					Pokemon wPokemon = getWild(); 
 					if (!Battle.battleWild(player, wPokemon) ) { 
 						System.out.println("\n\n");
