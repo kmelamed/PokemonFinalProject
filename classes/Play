@@ -26,6 +26,10 @@ public class Play {
 		while (numPokemon < NUMBER_OF_POKEMON) { 
 			System.out.print("Make a selection (1-5): ");
 			selection = in.nextInt(); 
+			if (selection > 5 || selection < 0) { 
+				System.out.println("invalid input!!");
+				continue; 
+			}
 			System.out.print("Enter a nickname: ");
 			name = in.next();
 			// Not a switch statement
