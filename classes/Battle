@@ -20,18 +20,14 @@ public class Battle {
 			System.out.println("2. Potion");
 			
 			int userChoice = Integer.parseInt(inputBW.readLine());
-//			System.out.println("test1 " + userChoice);
-//			System.out.println(p.numPotions + ", " + p.getNumPotions());
 			if (userChoice == 2 && p.numPotions == 0) {
 				System.out.println("You are out of potions! You must attack.");
 				userChoice = 1;
-//				System.out.println("test2");
 			}
 			if (userChoice == 1) {
 				System.out.println("1. Fast attack");
 				System.out.println("2. Heavy attack");
 				int moveChoice = Integer.parseInt(inputBW.readLine());
-//				System.out.println(moveChoice);
 				if (moveChoice == 1) {
 					int enemyMove = (int)(Math.random() * 2 + 1);
 					if (moveChoice == enemyMove) {
@@ -151,15 +147,12 @@ public class Battle {
 			}
 		}
 		
-//		inputBW.close();
 		if (!wPokemon.isAlive()) {
 			System.out.println("You defeated the wild " + wPokemon.name + "!");
 			return true;
-			// Need to go back to the board
 		} else {
 			System.out.println("You lost :(");
 			return false;
-			// Option to start over or stop playing
 		}
 	}
 	
@@ -348,15 +341,12 @@ public class Battle {
 			}
 		}
 		
-//		inputBT.close();
 		if (t.pokemon.size() == 0) {
 			System.out.println("You defeated the trainer!");
 			return true;
-			// Need to go back to the board
 		} else {
 			System.out.println("You lost :(");
 			return false;
-			// Option to start over or stop playing
 		}
 	}
 	
@@ -367,7 +357,6 @@ public class Battle {
 			System.out.println(i + ". " + p.pokemon.get(i - 1).toStringAbrev());
 		}
 		int x = Integer.parseInt(inputPC.readLine());
-//		inputPC.close();
 		return x;
 	}
 	
