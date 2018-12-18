@@ -173,7 +173,7 @@ public class Board {
 				player.isInBush = true;
 				bd[newRow][newCol] = 'P'; 
 				System.out.println("|---------------------------------------|");
-				System.out.println("|----------------LEVEL " + PokemonMain.currentLevel + "----------------|");
+				System.out.println("|----------------LEVEL " + Play.currentLevel + "----------------|");
 				System.out.println("|---------------------------------------|");
 				printBoard(bd); 
 				int wildPokemonChance = (int) (Math.random() * 10); 
@@ -181,7 +181,7 @@ public class Board {
 					Pokemon wPokemon = getWild(); 
 					if (!Battle.battleWild(player, wPokemon) ) { 
 						System.out.println("\n\n");
-						PokemonMain.play(); 
+						Play.start(); 
 					}
 
 					if (player.pokemon.size() > 1) { 
@@ -221,7 +221,7 @@ public class Board {
 		board = bd; 
 		
 		System.out.println("|---------------------------------------|");
-		System.out.println("|----------------LEVEL " + PokemonMain.currentLevel + "----------------|");
+		System.out.println("|----------------LEVEL " + Play.currentLevel + "----------------|");
 		System.out.println("|---------------------------------------|");
 		
 		printBoard(bd); 
