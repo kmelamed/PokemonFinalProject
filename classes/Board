@@ -78,7 +78,7 @@ public class Board {
 			int row = (int) (Math.random() * w); 
 			int col = (int) (Math.random() * (l - 2));
 			
-			while (board[row][col] != '_') { 
+			while (board[row][col] != '_' && board[row][col] != 'T') { 
 				row = (int) (Math.random() * w); 
 				col = (int) (Math.random() * (l - 2));
 			}
@@ -94,6 +94,7 @@ public class Board {
 			
 			
 			trainerList.add(new Trainer(listofNames.get(nameIndex), trainerPokemon, row, col)); 
+			
 			board[row][col] = 'T';
 		}
 		
@@ -134,7 +135,7 @@ public class Board {
 		int newRow = 0; 
 		int newCol = 0; 
 		
-		System.out.println("OLD: " + oldRow + ", " + oldCol);
+//		System.out.println("OLD: " + oldRow + ", " + oldCol);
 		
 		if (str.charAt(0) == 'w' && player.col >= 1 && bd[player.row][player.col - 1] != 'R' && bd[player.row][player.col - 1] != 'T') { 
 			newCol = player.col - 1;
@@ -153,7 +154,7 @@ public class Board {
 			newCol = oldCol; 
 		}
 		
-		System.out.println("NEW: " + newRow + ", " + newCol);
+//		System.out.println("NEW: " + newRow + ", " + newCol);
 	
 		
 		//check to see if the new spot is unique and if it is moving into a bush or not
@@ -179,19 +180,35 @@ public class Board {
 
 		}
 		
-		
-		
-		
-		
-		
-		
 		player.row = newRow; 
 		player.col = newCol; 
-
+		
+		printLines(); 
+		// check to see if there is a trainer to the north, south, east, or west of it 
+		// if the player ends up in the same column of the trainer, they will need to battle 
+		// as of now, the trainer can fight through rocks and bushes 
+		
+		for (int i = trainers.size() - 1; i >= 0; i --) { 
+			Trainer t = trainers.get(i); 
+			
+			
+			if (newCol == t.col) { 
+				System.out.println("BATTLE with: " + t.name);
+				// for now this removes the trainer whenever the person goes in front of it since we haven't added the battle
+				board[t.row][t.col] = '_'; 
+			}
+			
+		}
 		
 		board = bd; 
 	
 
+	}
+	
+	static void printLines() { 
+		for (int i = 0; i < 40; i++) { 
+			System.out.println();
+		}
 	}
 
 }
