@@ -24,6 +24,7 @@ public class Board {
 				board[i][j] = '_'; 
 			}
 		}
+		
 		int rockCounter = 6; 
 		int bushCounter = 10; 
 		int trainerCounter = 2; 
