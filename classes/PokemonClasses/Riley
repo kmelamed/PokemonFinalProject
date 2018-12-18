@@ -4,19 +4,19 @@ public class Riley extends Pokemon {
 	String heavyAtk = "Slow";
 	
 	public Riley(String name) {
-		super("Riley", name, 'F', 120, 10, 90);
+		super("Riley", name, 'F', 250, 0, 50);
 	}
 	
 	@Override
 	public void fast(Pokemon p) {
-		if (p.def >= 10)
-			p.def -= 10;
-		this.def += 5;
+		if (p.currentDef >= 10)
+			p.currentDef -= 10;
+		this.currentDef += 5;
 	}
 	
 	@Override
 	public void heavy(Pokemon p) {
-		int dmg = 60 - p.def;
+		int dmg = 50 - p.currentDef;
 		if (p.type == 'G') {
 			dmg *= 2;
 			int critChance = (int)(Math.random() * 20) + 1;
