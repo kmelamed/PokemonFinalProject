@@ -1,7 +1,8 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Board {
-	
+
 	static char[][] board; 
 	int length; 
 	int width; 
@@ -14,10 +15,10 @@ public class Board {
 		player = p; 
 		board = generateBoard(l, w, p); 
 	}
-	
+
 	public static char[][] generateBoard(int l, int w, Player player) { 
 		char[][] board = new char[w][l];
-		
+
 		for (int i = 0; i < board.length; i++) { 
 			for (int j = 0; j < board[0].length; j++) { 
 				board[i][j] = '_'; 
@@ -26,24 +27,24 @@ public class Board {
 		int rockCounter = 6; 
 		int bushCounter = 10; 
 		int trainerCounter = 2; 
-		
+
 		for (int i = 0; i < bushCounter; i++) { 
 			int row = (int) (Math.random() * w); 
 			int col = (int) (Math.random() * (l - 2));
-			
+
 			while (board[row][col] != '_') { 
 				row = (int) (Math.random() * w); 
 				col = (int) (Math.random() * (l - 2));
 			}
-			
+
 			board[row][col] = 'B'; 
-			
+
 		}
 		int counter = 0; 
 		while (counter < rockCounter){ 
 			int row = (int) (Math.random() * w); 
 			int col = (int) (Math.random() * (l - 2));
-			
+
 			while (board[row][col] != '_') { 
 				row = (int) (Math.random() * w); 
 				col = (int) (Math.random() * (l - 2));
@@ -53,59 +54,59 @@ public class Board {
 				counter ++; 
 			}
 		}
-		
+
 		ArrayList<Trainer> trainerList = new ArrayList<>();
-		
-		
+
+
 		String[] names = {"Aidyl", "Gerard", "Daniel", "Brain", "Nohemi", "Tami", "Joanne", "Juan", "Ladan", "Yvonne",
 				"Rob", "Mel", "Michelle"}; 
 		ArrayList<String> listofNames = new ArrayList<>();
-		
+
 		Pokemon[] arrayofPokemon = {new Riley("Riley"), new Kaylen("Kaylen"), new Robert("Robert"), new Dillon("Dillon"), 
 				new Parker("Parker")}; 
-		
+
 		ArrayList<Pokemon> pokemons = new ArrayList<>(); 
 		for (int i = 0; i < arrayofPokemon.length; i ++) { 
 			pokemons.add(arrayofPokemon[i]);
 		}
 
-		
+
 		for (int i = 0; i < names.length; i ++) { 
 			listofNames.add(names[i]); 
 		}
-		
+
 		for (int i = 0; i < trainerCounter; i++) { 
 			int row = (int) (Math.random() * w); 
 			int col = (int) (Math.random() * (l - 2));
-			
+
 			while (board[row][col] != '_' && board[row][col] != 'T') { 
 				row = (int) (Math.random() * w); 
 				col = (int) (Math.random() * (l - 2));
 			}
 
 			int nameIndex = (int) (Math.random() * listofNames.size()); 
-			
+
 			int pokemonNumber = (int) (Math.random() * 3 + 1); 
-			
+
 			ArrayList<Pokemon> trainerPokemon = new ArrayList<>(); 
 			for (int j = 0; j < pokemonNumber; j++) { 
 				trainerPokemon.add(pokemons.get((int) (Math.random() * pokemons.size()))); 
 			}
-			
-			
+
+
 			trainerList.add(new Trainer(listofNames.get(nameIndex), trainerPokemon, row, col)); 
-			
+
 			board[row][col] = 'T';
 		}
-		
+
 		trainers = trainerList; 
-		
+
 		board[player.row][player.col] = 'P'; 
-		
+
 		return board; 
-			
+
 	}
-	
+
 	public static boolean isOk (char[][] board, int i, int j) {
 		int[] di = {-1, -1, -1, 0, 0, 0, 1, 1, 1}, dj = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
 		for (int k = 0; k < 9; k++) {
@@ -115,10 +116,10 @@ public class Board {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	public static void printBoard(char[][] board) { 
 		for (int i = 0; i < board.length; i++) { 
 			for (int j = 0; j < board[0].length; j++) { 
@@ -127,16 +128,19 @@ public class Board {
 			System.out.println("\n");
 		}
 	}
-	
-	public static void move(String str, Player player, char[][] bd) { 
-		str = str.toLowerCase(); 
+
+	public static void move(String str, Player player, char[][] bd) throws IOException { 
+		
+		str = str.toLowerCase();
+		
+		 
 		int oldCol = player.col; 
 		int oldRow = player.row; 
 		int newRow = 0; 
 		int newCol = 0; 
-		
-//		System.out.println("OLD: " + oldRow + ", " + oldCol);
-		
+
+		//		System.out.println("OLD: " + oldRow + ", " + oldCol);
+
 		if (str.charAt(0) == 'w' && player.col >= 1 && bd[player.row][player.col - 1] != 'R' && bd[player.row][player.col - 1] != 'T') { 
 			newCol = player.col - 1;
 			newRow = oldRow; 
@@ -153,63 +157,110 @@ public class Board {
 			newRow = oldRow; 
 			newCol = oldCol; 
 		}
-		
-//		System.out.println("NEW: " + newRow + ", " + newCol);
-	
-		
+
+		//		System.out.println("NEW: " + newRow + ", " + newCol);
+
+
 		//check to see if the new spot is unique and if it is moving into a bush or not
 		if (oldRow != newRow || oldCol != newCol) {  
-			if (player.isInBush) 
+			if (player.isInBush) {
 				bd[oldRow][oldCol] = 'B';
+
+			}
 			else 
 				bd[oldRow][oldCol] = '_';
 			if (bd[newRow][newCol] == 'B') { 
 				player.isInBush = true;
-				
+				bd[newRow][newCol] = 'P'; 
+				System.out.println("|---------------------------------------|");
+				System.out.println("|----------------LEVEL " + PokemonMain.currentLevel + "----------------|");
+				System.out.println("|---------------------------------------|");
+				printBoard(bd); 
 				int wildPokemonChance = (int) (Math.random() * 10); 
-				//ADD WILD POKEMON BATTLE PART
+				if (wildPokemonChance == 5) { 
+					Pokemon wPokemon = getWild(); 
+					if (!Battle.battleWild(player, wPokemon) ) { 
+						System.out.println("\n\n");
+						PokemonMain.play(); 
+					}
+
+					if (player.pokemon.size() > 1) { 
+						String result = ""; 
+
+						for (int i = 0; i < player.pokemon.size() - 1; i ++ )
+							result += player.pokemon.get(i).name + ", ";
+
+						System.out.println("Current Pokemon: " + result + player.pokemon.get(player.pokemon.size() - 1).name);
+					} else if (player.pokemon.size() == 1) { 
+						System.out.println("Current Pokemon: " + player.pokemon.get(0).name);
+					}
+				}
+
 			}
-				 
+
 			else 
 				player.isInBush = false; 
-			
+
 			bd[newRow][newCol] = 'P'; 
-			
+
 		} else { 
 			bd[oldRow][oldCol] = 'P'; 
 
 		}
-		
+
 		player.row = newRow; 
 		player.col = newCol; 
-		
-		printLines(); 
-		// check to see if there is a trainer to the north, south, east, or west of it 
+
+
+		// check to see if there is a trainer in the same column
 		// if the player ends up in the same column of the trainer, they will need to battle 
 		// as of now, the trainer can fight through rocks and bushes 
+
+	
+
+		board = bd; 
+		
+		System.out.println("|---------------------------------------|");
+		System.out.println("|----------------LEVEL " + PokemonMain.currentLevel + "----------------|");
+		System.out.println("|---------------------------------------|");
+		
+		printBoard(bd); 
 		
 		for (int i = trainers.size() - 1; i >= 0; i --) { 
 			Trainer t = trainers.get(i); 
-			
-			
-			if (newCol == t.col) { 
-				System.out.println("BATTLE with: " + t.name);
-				// for now this removes the trainer whenever the person goes in front of it since we haven't added the battle
-				trainers.remove(trainers.get(i)); 
-				board[t.row][t.col] = '_'; 
+
+			if (player.col == t.col) {  
+				
+				if (Battle.battleTrainer(player, t)) { 
+					trainers.remove(trainers.get(i)); 
+					board[t.row][t.col] = '_'; 
+				} else { 
+					return; 
+				}
 			}
-			
+
 		}
-		
-		board = bd; 
-	
+
 
 	}
-	
+
 	static void printLines() { 
 		for (int i = 0; i < 40; i++) { 
 			System.out.println();
 		}
+	}
+
+	static Pokemon getWild() { 
+		Pokemon[] arrayofPokemon = {new Riley("Riley"), new Kaylen("Kaylen"), new Robert("Robert"), new Dillon("Dillon"), 
+				new Parker("Parker")}; 
+
+		ArrayList<Pokemon> pokemons = new ArrayList<>(); 
+		for (int i = 0; i < arrayofPokemon.length; i ++) { 
+			pokemons.add(arrayofPokemon[i]);
+		}
+
+		int rand = (int) (Math.random() * pokemons.size()); 
+		return pokemons.get(rand); 
 	}
 
 }
