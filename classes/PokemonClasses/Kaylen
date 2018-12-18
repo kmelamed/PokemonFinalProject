@@ -20,7 +20,7 @@ public class Kaylen extends Pokemon {
 	
 	@Override
 	public void heavy(Pokemon p) {
-		int dmg = 50 - p.def;
+		int dmg = 50 - p.currentDef;
 		int critChance = (int)(Math.random() * 20) + 1;
 		
 		if (p.type == 'W') 
