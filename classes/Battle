@@ -1,85 +1,393 @@
-import java.util.Scanner;
+// I think it works
 
-public class battle 
-{
-	public static void main(String args[])
-	{
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Battle {
+	
+	public static boolean battleWild(Player p, Pokemon wPokemon) throws IOException {
+		BufferedReader inputBW = new BufferedReader(new InputStreamReader(System.in)); 
 		
+		int pChoice = pokemonChoiceP(p);
+		Pokemon pPokemon = p.pokemon.get(pChoice - 1);
+		
+		while (p.pokemon.size() > 0 && wPokemon.isAlive()) {
+			System.out.println("\nYour pokemon: " + pPokemon);
+			System.out.println("Wild pokemon: " + wPokemon);
+			
+			System.out.println("\n1. Attack");
+			System.out.println("2. Potion");
+			
+			int userChoice = Integer.parseInt(inputBW.readLine());
+//			System.out.println("test1 " + userChoice);
+//			System.out.println(p.numPotions + ", " + p.getNumPotions());
+			if (userChoice == 2 && p.numPotions == 0) {
+				System.out.println("You are out of potions! You must attack.");
+				userChoice = 1;
+//				System.out.println("test2");
+			}
+			if (userChoice == 1) {
+				System.out.println("1. Fast attack");
+				System.out.println("2. Heavy attack");
+				int moveChoice = Integer.parseInt(inputBW.readLine());
+//				System.out.println(moveChoice);
+				if (moveChoice == 1) {
+					int enemyMove = (int)(Math.random() * 2 + 1);
+					if (moveChoice == enemyMove) {
+						int diff = pPokemon.speed - wPokemon.speed;
+						if (diff == 0) {
+							diff = coinFlip();
+						}
+						
+						if (diff > 0) {
+							pPokemon.fast(wPokemon);
+							if (wPokemon.isAlive())
+								wPokemon.fast(pPokemon);
+							if (!pPokemon.isAlive()) {
+								p.graveyard.add(p.pokemon.remove(pChoice - 1));
+								if (p.pokemon.size() != 0) {
+									pChoice = pokemonChoiceP(p);
+									pPokemon = p.pokemon.get(pChoice - 1);
+								}
+							}
+						} else {
+							wPokemon.fast(pPokemon);
+							if (!pPokemon.isAlive()) {
+								p.graveyard.add(p.pokemon.remove(pChoice - 1));
+								if (p.pokemon.size() != 0) {
+									pChoice = pokemonChoiceP(p);
+									pPokemon = p.pokemon.get(pChoice - 1);
+								}
+							} else {
+								pPokemon.fast(wPokemon);
+							}
+						}
+					} else {
+						pPokemon.fast(wPokemon);
+						if (wPokemon.isAlive())
+							wPokemon.heavy(pPokemon);
+						if (!pPokemon.isAlive()) {
+							p.graveyard.add(p.pokemon.remove(pChoice - 1));
+							if (p.pokemon.size() != 0) {
+								pChoice = pokemonChoiceP(p);
+								pPokemon = p.pokemon.get(pChoice - 1);
+							}
+						}
+					}
+				} else {
+					int enemyMove = (int)(Math.random() * 2 + 1);
+					if (moveChoice == enemyMove) {
+						int diff = pPokemon.speed - wPokemon.speed;
+						if (diff == 0) {
+							diff = coinFlip();
+						}	
+						
+						if (diff > 0) {
+							pPokemon.heavy(wPokemon);
+							if (wPokemon.isAlive())
+								wPokemon.heavy(pPokemon);
+							if (!pPokemon.isAlive()) {
+								p.graveyard.add(p.pokemon.remove(pChoice - 1));
+								if (p.pokemon.size() != 0) {
+									pChoice = pokemonChoiceP(p);
+									pPokemon = p.pokemon.get(pChoice - 1);
+								}
+							}
+						} else {
+							wPokemon.heavy(pPokemon);
+							if (!pPokemon.isAlive()) {
+								p.graveyard.add(p.pokemon.remove(pChoice - 1));
+								if (p.pokemon.size() != 0) {
+									pChoice = pokemonChoiceP(p);
+									pPokemon = p.pokemon.get(pChoice - 1);
+								}
+							} else {
+								pPokemon.heavy(wPokemon);
+							}
+						}
+					} else {
+						wPokemon.fast(pPokemon);
+						if (!pPokemon.isAlive()) {
+							p.graveyard.add(p.pokemon.remove(pChoice - 1));
+							if (p.pokemon.size() != 0) {
+								pChoice = pokemonChoiceP(p);
+								pPokemon = p.pokemon.get(pChoice - 1);
+							}
+						} else {
+							pPokemon.heavy(wPokemon);
+						}
+					}
+				}
+			} else if (userChoice == 2) {
+				System.out.println("You used one potion, you have " + (p.numPotions - 1) + " left");
+				p.numPotions--;
+				if (pPokemon.currentHP + 50 > pPokemon.totalHP) {
+					pPokemon.currentHP = pPokemon.totalHP;
+				} else {
+					pPokemon.currentHP += 50;
+				}
+				
+				int enemyMove = (int)(Math.random() * 2 + 1);
+				if (enemyMove == 1) {
+					wPokemon.fast(pPokemon);
+					if (!pPokemon.isAlive()) {
+						p.graveyard.add(p.pokemon.remove(pChoice - 1));
+						if (p.pokemon.size() != 0) {
+							pChoice = pokemonChoiceP(p);
+							pPokemon = p.pokemon.get(pChoice - 1);
+						}
+					}
+				} else {
+					wPokemon.heavy(pPokemon);
+					if (!pPokemon.isAlive()) {
+						p.graveyard.add(p.pokemon.remove(pChoice - 1));
+						if (p.pokemon.size() != 0) {
+							pChoice = pokemonChoiceP(p);
+							pPokemon = p.pokemon.get(pChoice - 1);
+						}
+					}
+				}
+			}
+		}
+		
+//		inputBW.close();
+		if (!wPokemon.isAlive()) {
+			System.out.println("You defeated the wild " + wPokemon.name + "!");
+			return true;
+			// Need to go back to the board
+		} else {
+			System.out.println("You lost :(");
+			return false;
+			// Option to start over or stop playing
+		}
 	}
 	
-	public static void battleTrainer(Character player, Character trainer)
-	{
-		Scanner input = new Scanner(System.in);
+	public static boolean battleTrainer(Player p, Trainer t) throws IOException {
+		BufferedReader inputBT = new BufferedReader(new InputStreamReader(System.in));
 		
-		while(player.getPokemon().getCurrentHP() > 0 && trainer.getPokemon().getCurrentHP() > 0)
-		{
-			Pokemon p = player.getPokemon();
-			Pokemon t = trainer.getPokemon();
-			
-			System.out.println(p.getName() + " HP: " + p.getCurrentHP() + " / " + p.getTotalHP());
-			System.out.println("/n/n/n/n/n/n" + t.getName() + " HP: " + t.getCurrentHP() + " / " + t.getTotalHP());
+		int pChoice = pokemonChoiceP(p);
+		Pokemon pPokemon = p.pokemon.get(pChoice - 1);
+		int tChoice = pokemonChoiceT(t);
+		Pokemon tPokemon = t.pokemon.get(tChoice);
+		
+		while (p.pokemon.size() > 0 && t.pokemon.size() > 0) {
+			System.out.println("\nYour pokemon: " + pPokemon);
+			System.out.println("Trainer pokemon: " + tPokemon);
 			
 			System.out.println("1. Attack");
 			System.out.println("2. Potion");
 			
-			int userChoice = input.nextInt();
-			if(userChoice == 1)
-			{
-				System.out.println("1. fast attack");
-				System.out.println("2. heavy attack");
-				int moveChoice = input.nextInt();
+			int userChoice = Integer.parseInt(inputBT.readLine());
+			if (userChoice == 1) {
+				System.out.println("1. Fast attack");
+				System.out.println("2. Heavy attack");
+				int moveChoice = Integer.parseInt(inputBT.readLine());
 				
-				if(moveChoice == 1)
-				{
+				if (moveChoice == 1) {
 					int enemyMove = (int)(Math.random() * 2 + 1);
-					if(moveChoice == enemyMove)
-					{
-						if(p.getSpeed() >= t.getSpeed())
-						{
-							p.fast(t);
-							t.fast(p);
+					if (moveChoice == enemyMove) {
+						int diff = pPokemon.speed - tPokemon.speed;
+						if (diff == 0) {
+							diff = coinFlip();
 						}
-						else
-						{
-							t.fast(p);
-							p.fast(t);
+						
+						if (diff > 0) {
+							System.out.println("test1");
+							pPokemon.fast(tPokemon);
+							if (tPokemon.isAlive()) {
+								tPokemon.fast(pPokemon);
+							} else {
+								t.graveyard.add(t.pokemon.remove(tChoice));
+								if (t.pokemon.size() != 0) {
+									tChoice = pokemonChoiceT(t);
+									tPokemon = t.pokemon.get(tChoice);
+								}
+							}
+							if (!pPokemon.isAlive()) {
+								p.graveyard.add(p.pokemon.remove(pChoice - 1));
+								if (p.pokemon.size() != 0) {
+									pChoice = pokemonChoiceP(p);
+									pPokemon = p.pokemon.get(pChoice - 1);
+								}
+							}
+						} else {
+							System.out.println("test2");
+							tPokemon.fast(pPokemon);
+							if (!pPokemon.isAlive()) {
+								p.graveyard.add(p.pokemon.remove(pChoice - 1));
+								if (p.pokemon.size() != 0) {
+									pChoice = pokemonChoiceP(p);
+									pPokemon = p.pokemon.get(pChoice - 1);
+								}
+							} else {
+								pPokemon.fast(tPokemon);
+							}
+							if (!tPokemon.isAlive()) {
+								t.graveyard.add(t.pokemon.remove(tChoice));
+								if (t.pokemon.size() != 0) {
+									tChoice = pokemonChoiceT(t);
+									tPokemon = t.pokemon.get(tChoice);
+								}
+							}
+						}
+					} else {
+						System.out.println("test3");
+						pPokemon.fast(tPokemon);
+						if (tPokemon.isAlive()) {
+							tPokemon.heavy(pPokemon);
+						} else {
+							t.graveyard.add(t.pokemon.remove(tChoice));
+							if (t.pokemon.size() != 0) {
+								tChoice = pokemonChoiceT(t);
+								tPokemon = t.pokemon.get(tChoice);
+							}
+						}
+						if (!pPokemon.isAlive()) {
+							p.graveyard.add(p.pokemon.remove(pChoice - 1));
+							if (p.pokemon.size() != 0) {
+								pChoice = pokemonChoiceP(p);
+								pPokemon = p.pokemon.get(pChoice - 1);
+							}
 						}
 					}
-					else
-					{
-						p.fast(t);
-						t.heavy(p);	
+				} else {
+					int enemyMove = (int)(Math.random() * 2 + 1);
+					if (moveChoice == enemyMove) {
+						int diff = pPokemon.speed - tPokemon.speed;
+						if (diff == 0) {
+							diff = coinFlip();
+						}
+						
+						if (diff > 0) {
+							pPokemon.heavy(tPokemon);
+							if (tPokemon.isAlive()) {
+								tPokemon.heavy(pPokemon);
+							} else {
+								t.graveyard.add(t.pokemon.remove(tChoice));
+								if (t.pokemon.size() != 0) {
+									tChoice = pokemonChoiceT(t);
+									tPokemon = t.pokemon.get(tChoice);
+								}
+							}
+							if (!pPokemon.isAlive()) {
+								p.graveyard.add(p.pokemon.remove(pChoice - 1));
+								if (p.pokemon.size() != 0) {
+									pChoice = pokemonChoiceP(p);
+									pPokemon = p.pokemon.get(pChoice - 1);
+								}
+							}
+						} else {
+							tPokemon.heavy(pPokemon);
+							if (!pPokemon.isAlive()) {
+								p.graveyard.add(p.pokemon.remove(pChoice - 1));
+								if (p.pokemon.size() != 0) {
+									pChoice = pokemonChoiceP(p);
+									pPokemon = p.pokemon.get(pChoice - 1);
+								}
+							} else {
+								pPokemon.heavy(tPokemon);
+							}
+							if (!tPokemon.isAlive()) {
+								t.graveyard.add(t.pokemon.remove(tChoice));
+								if (t.pokemon.size() != 0) {
+									tChoice = pokemonChoiceT(t);
+									tPokemon = t.pokemon.get(tChoice);
+								}
+							}
+						}
+					} else {
+						tPokemon.fast(pPokemon);
+						if (!pPokemon.isAlive()) {
+							p.graveyard.add(p.pokemon.remove(pChoice - 1));
+							if (p.pokemon.size() != 0) {
+								pChoice = pokemonChoiceP(p);
+								pPokemon = p.pokemon.get(pChoice - 1);
+							}
+						} else {
+							pPokemon.heavy(tPokemon);
+						}
+						if (!tPokemon.isAlive()) {
+							t.graveyard.add(t.pokemon.remove(tChoice));
+							if (t.pokemon.size() != 0) {
+								tChoice = pokemonChoiceT(t);
+								tPokemon = t.pokemon.get(tChoice);
+							}
+						}
 					}
 				}
-				else
-				{
-					int enemyMove = (int)(Math.random() * 2 + 1);
-					if(moveChoice == enemyMove)
-					{
-						if(p.getSpeed() >= t.getSpeed())
-						{
-							p.heavy(t);
-							t.heavy(p);
-						}
-						else
-						{
-							t.heavy(p);
-							p.heavy(t);
+			} else if (userChoice == 2) {
+				System.out.println("You used one potion, you have " + (p.numPotions - 1) + " left");
+				p.numPotions--;
+				if (pPokemon.currentHP + 50 > pPokemon.totalHP) {
+					pPokemon.currentHP = pPokemon.totalHP;
+				} else {
+					pPokemon.currentHP += 50;
+				}
+				
+				int enemyMove = (int)(Math.random() * 2 + 1);
+				if (enemyMove == 1) {
+					tPokemon.fast(pPokemon);
+					if (!pPokemon.isAlive()) {
+						p.graveyard.add(p.pokemon.remove(pChoice - 1));
+						if (p.pokemon.size() != 0) {
+							pChoice = pokemonChoiceP(p);
+							pPokemon = p.pokemon.get(pChoice - 1);
 						}
 					}
-					else
-					{
-						t.fast(p);
-						p.heavy(t);	
+				} else {
+					tPokemon.heavy(pPokemon);
+					if (!pPokemon.isAlive()) {
+						p.graveyard.add(p.pokemon.remove(pChoice - 1));
+						if (p.pokemon.size() != 0) {
+							pChoice = pokemonChoiceP(p);
+							pPokemon = p.pokemon.get(pChoice - 1);
+						}
 					}
 				}
-			}
-			else if(userChoice == 2)
-			{
-				System.out.println("You used one potion, you have " + player.getNumPotions() - 1 + " left");
-				player.setNumPotions(player.getNumPotions() - 1);
-				p.setCurrentHP(p.getCurrentHP() + 20);
 			}
 		}
+		
+//		inputBT.close();
+		if (t.pokemon.size() == 0) {
+			System.out.println("You defeated the trainer!");
+			return true;
+			// Need to go back to the board
+		} else {
+			System.out.println("You lost :(");
+			return false;
+			// Option to start over or stop playing
+		}
 	}
+	
+	public static int pokemonChoiceP(Player p) throws IOException {
+		BufferedReader inputPC = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Choose your pokemon: ");
+		for (int i = 1; i <= p.pokemon.size(); i++) {
+			System.out.println(i + ". " + p.pokemon.get(i - 1).toStringAbrev());
+		}
+		int x = Integer.parseInt(inputPC.readLine());
+//		inputPC.close();
+		return x;
+	}
+	
+	public static int pokemonChoiceT(Trainer t) {
+		return (int)(Math.random() * t.pokemon.size());
+	}
+	
+	public static int coinFlip() {
+		int x = (int)(Math.random() * 2);
+		if (x == 1) {
+			return 1;
+		}
+		return -1;
+	}
+	
+	public static void restoreHealth(Player p) {
+		for (int i = 0; i < p.pokemon.size(); i++) {
+			p.pokemon.get(i).currentHP = p.pokemon.get(i).totalHP;
+			p.pokemon.get(i).currentDef = p.pokemon.get(i).def;
+		}
+	}
+	
 }
