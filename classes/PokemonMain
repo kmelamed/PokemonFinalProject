@@ -1,15 +1,47 @@
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class PokemonMain {
-	
+	static int NUMBER_OF_LEVELS = 5; 
+
 	public static void main(String[] args) {
-	
-		char[][] board = Board.generateBoard(15, 4);
-		
-		Board.printBoard(board);
-		
-		
-		
+		Scanner in = new Scanner(System.in); 
+
+		// initialize the Pokemon array
+
+
+		ArrayList<Pokemon> pokemon = new ArrayList<>(); 
+
+		Player player; 
+		char[][] board; 
+
+
+		int currentLevel = 1; 
+
+		while(currentLevel < NUMBER_OF_LEVELS) { 
+			System.out.println("|---------------------------------------|");
+			System.out.println("|----------------LEVEL " + currentLevel + "----------------|");
+			System.out.println("|---------------------------------------|");
+			player = new Player("Player", pokemon, 2, 14, false); 
+			board = Board.generateBoard(15, 4, player);
+			Board.printBoard(board);
+			
+			while (Board.trainers.size() != 0) { 
+				String dir = in.next(); 
+				Board.move(dir, player, board);
+				System.out.println("|---------------------------------------|");
+				System.out.println("|----------------LEVEL " + currentLevel + "----------------|");
+				System.out.println("|---------------------------------------|");
+				Board.printBoard(board);
+			}
+			
+			currentLevel ++; 
+			Board.printLines();
+
+		}	
 
 	}
-	
+
+
 }
