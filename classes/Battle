@@ -186,7 +186,6 @@ public class Battle {
 						}
 						
 						if (diff > 0) {
-							System.out.println("test1");
 							pPokemon.fast(tPokemon);
 							if (tPokemon.isAlive()) {
 								tPokemon.fast(pPokemon);
@@ -205,7 +204,6 @@ public class Battle {
 								}
 							}
 						} else {
-							System.out.println("test2");
 							tPokemon.fast(pPokemon);
 							if (!pPokemon.isAlive()) {
 								p.graveyard.add(p.pokemon.remove(pChoice - 1));
@@ -225,7 +223,6 @@ public class Battle {
 							}
 						}
 					} else {
-						System.out.println("test3");
 						pPokemon.fast(tPokemon);
 						if (tPokemon.isAlive()) {
 							tPokemon.heavy(pPokemon);
