@@ -1,4 +1,3 @@
-
 public class Kaylen extends Pokemon {
 
 	String fastAtk = "";
