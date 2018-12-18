@@ -4,18 +4,29 @@ import java.util.Scanner;
 
 public class Play {
 	static final int NUMBER_OF_LEVELS = 5; 
-	static final int NUMBER_OF_POKEMON = 3; 
+	static final int NUMBER_OF_POKEMON = 1; 
 	static int currentLevel;
 	
 	static void start() throws IOException { 
 		Scanner in = new Scanner(System.in); 
 
-		// initialize the Pokemon array
-		String[] pokemonArray = {"Riley", "Kaylen", "Robert", "Dillon", "Parker"};
+		// array of all the available Pokemon
+		Pokemon[] pokemonArray = {new Riley(""), new Kaylen(""), new Robert(""), new Dillon(""), new Parker("")};
 		
+		String hashmarks = "###########################################################################"; 
+		System.out.println(hashmarks);
+		System.out.println("############################ POKEMON AVALABLE #############################");
+		System.out.println(hashmarks);
 		for (int i = 0; i < pokemonArray.length; i++) { 
-			System.out.println("Select " + (i + 1) + " for Pokemon: " + pokemonArray[i]);
+			String result = "#### Select " + (i + 1) + " for Pokemon: " + pokemonArray[i];
+			for (int j = result.length(); j < hashmarks.length() - 4; j++) { 
+				result += " "; 
+			}
+			result += "####"; 
+			System.out.println(result);
 		}
+		System.out.println(hashmarks + "\n" + hashmarks + "\n" + hashmarks + "\n");
+		
 		System.out.println();
 		
 		ArrayList<Pokemon> pokemon = new ArrayList<>();
@@ -26,6 +37,8 @@ public class Play {
 		while (numPokemon < NUMBER_OF_POKEMON) { 
 			System.out.print("Make a selection (1-5): ");
 			selection = in.nextInt(); 
+			
+			// ensures that the selection is between 1 and 5 inclusive
 			if (selection > 5 || selection < 0) { 
 				System.out.println("invalid input!!");
 				continue; 
@@ -33,6 +46,7 @@ public class Play {
 			System.out.print("Enter a nickname: ");
 			name = in.next();
 			// Not a switch statement
+			// adds the pokemon to the array according to the selection that the user made 
 			if (selection == 1) {
 				pokemon.add(new Riley(name));
 				numPokemon++; 
@@ -70,10 +84,7 @@ public class Play {
 		currentLevel = 1; 
 
 		while(currentLevel < NUMBER_OF_LEVELS) { 
-			System.out.println("|---------------------------------------|");
-			System.out.println("|----------------LEVEL " + currentLevel + "----------------|");
-			System.out.println("|---------------------------------------|");
-		
+
 			player = new Player("Player", pokemon, 2, 14, false); 
 			board = Board.generateBoard(15, 4, player);
 			Board.printBoard(board);
@@ -92,6 +103,7 @@ public class Play {
 			currentLevel ++; 
 
 		}	
+		
 	}
 
 
