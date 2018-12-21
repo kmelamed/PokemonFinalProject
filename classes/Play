@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Play {
 	static final int NUMBER_OF_LEVELS = 5; 
-	static final int NUMBER_OF_POKEMON = 1; 
+	static final int NUMBER_OF_POKEMON = 3; 
 	static int currentLevel;
 	
 	static void start() throws IOException { 
