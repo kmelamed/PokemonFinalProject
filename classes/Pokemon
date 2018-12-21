@@ -9,8 +9,8 @@ public abstract class Pokemon {
 	int currentDef;
 	int speed;
 	
-	public abstract void fast(Pokemon p);
-	public abstract void heavy(Pokemon p);
+	public abstract int fast(Pokemon p);
+	public abstract int heavy(Pokemon p);
 	
 	public Pokemon(String n, String nn, char t, int tHP, int d, int s) {
 		name = n;
